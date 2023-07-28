@@ -95,7 +95,7 @@ td:nth-child(6), td:nth-child(7), td:nth-child(8){
 }
 
 .unarchive{
-    background-image: url("assets/images/unarchive_icon.svg");
+    background-image: url("../public/images/unarchive_icon.svg");
     cursor: pointer;
 }
 

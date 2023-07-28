@@ -1,10 +1,34 @@
-import React from 'react';
-import {useSelector} from "react-redux";
-import {trimText} from "../utils/helperFunctions";
+import React, {useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {getCategoryImage, trimText} from "../utils/helperFunctions";
+import {
+  removeNote,
+  selectArchivedNotes,
+  selectNotArchivedNotes,
+  archivedNote,
+  unArchivedNote, editNote
+} from "../store/notesSlice";
+import EditNoteComponent from "./Forms/EditNoteComponent";
 
-const TableComponent = ({ headers}) => {
+const TableComponent = ({headers, showArchived}) => {
+  const dispatch = useDispatch()
+  const archivedNotes = useSelector(selectArchivedNotes);
+  const notArchivedNotes = useSelector(selectNotArchivedNotes);
+  const [editedNoteId, setEditedNoteId] = useState(null);
 
-  const notes = useSelector(state=> state.notes.notes)
+  const removeNoteHandler = (id) => {
+    dispatch(removeNote(id))
+  }
+
+  const toggleNoteHandler = (id) => {
+    if (showArchived) {
+      dispatch(unArchivedNote(id));
+    } else {
+      dispatch(archivedNote(id));
+    }
+  };
+
+  const notesToShow = showArchived ? archivedNotes : notArchivedNotes;
 
   return (
     <section>
@@ -17,27 +41,50 @@ const TableComponent = ({ headers}) => {
         </tr>
         </thead>
         <tbody>
-        {notes?.map((note) => (
-            <tr key={note.id}>
-            <td>{trimText(note.title, 20)}</td>
+        {notesToShow.map((note) => (
+          <tr key={note.id}>
+            <td>
+              <div className="flex-container">
+                <div className="category-image">
+                  <img src={getCategoryImage(note.category)} alt={note.category}/>
+                </div>
+                <div>{trimText(note.title, 20)}</div>
+              </div>
+            </td>
             <td>{note.created}</td>
             <td>{note.category}</td>
-            <td>{note.content}</td>
+            <td>{trimText(note.content, 20)}</td>
             <td>{note.dates}</td>
-            <td>
-              {note.archived ? (
-                <>
-                  <button>Unarchive</button>
-                  <button>Remove</button>
-                </>
-              ) : (
-                <button>Archive</button>
+            {showArchived ? (
+                <td>
+                  <div onClick={() => toggleNoteHandler(note.id)} className="pic unarchive"/>
+                </td>
+                  ) : (
+             <>
+               <td>
+                 <div
+                   onClick={() => setEditedNoteId(note.id)}
+                   className="pic edit"/>
+               </td>
+               <td>
+                 <div onClick={() => toggleNoteHandler(note.id)} className="pic archive"/>
+
+               </td>
+               <td>
+                 <div onClick={() => removeNoteHandler(note.id)} className="pic remove"/>
+               </td>
+             </>
               )}
-            </td>
           </tr>
         ))}
         </tbody>
       </table>
+      {editedNoteId && (
+        <EditNoteComponent
+          note={notArchivedNotes.find((note) => note.id === editedNoteId)}
+          setEditedNoteId={() => setEditedNoteId(null)}
+        />
+      )}
     </section>
   );
 };

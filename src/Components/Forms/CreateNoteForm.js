@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {createNote} from "../store/notesSlice";
+import {useDispatch} from "react-redux";
+import {createNote} from "../../store/notesSlice";
 import { v4 as uuidv4 } from 'uuid';
-import {createDate, getDatesFromString} from "../utils/helperFunctions";
+import {createDate, getDatesFromString} from "../../utils/helperFunctions";
 
-const FormNotes = () => {
+const CreateNoteForm = ({setIsCreateFromOpen}) => {
 
   const dispatch = useDispatch()
-
   const [value, setValue] = useState({
     title: '',
     category: 'Task',
@@ -42,6 +41,8 @@ const FormNotes = () => {
       content: '',
     });
 
+    setIsCreateFromOpen(false)
+
   };
 
   return (
@@ -59,7 +60,6 @@ const FormNotes = () => {
         <select
           value={value.category}
           onChange={handleChange}
-          id="category"
           name="category"
         >
           <option value="Task">Task</option>
@@ -81,4 +81,4 @@ const FormNotes = () => {
   );
 };
 
-export default FormNotes;
+export default CreateNoteForm;

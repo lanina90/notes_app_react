@@ -65,7 +65,7 @@ const initialState = {
       dates: '1/08/2023',
       archived: false,
     }
-  ]
+  ],
 }
 const notesSlice = createSlice({
   name: 'notes',
@@ -74,10 +74,49 @@ const notesSlice = createSlice({
     createNote: (state, action) => {
       state.notes.push(action.payload);
     },
+    editNote: (state, action) => {
+      const { id, title, category, content, dates } = action.payload;
+      const noteToEdit = state.notes.find((note) => note.id === id);
+      if (noteToEdit) {
+        noteToEdit.title = title;
+        noteToEdit.category = category;
+        noteToEdit.content = content;
+        noteToEdit.dates = dates;
+      }
+    },
+    archivedNote: (state, action) => {
+      const id = action.payload;
+      state.notes = state.notes.map(note => {
+        if (note.id === id) {
+          return { ...note, archived: true };
+        }
+        return note;
+      });
+    },
+    unArchivedNote: (state, action) => {
+      const id = action.payload;
+      state.notes = state.notes.map(note => {
+        if (note.id === id) {
+          return { ...note, archived: false };
+        }
+        return note;
+      });
+    },
+    removeNote: (state, action) => {
+      state.notes = state.notes.filter( (note) => note.id !== action.payload)
+    }
   }
 })
 
 export const {
-  createNote
+  createNote,
+  removeNote,
+  archivedNote,
+  unArchivedNote,
+  editNote
 } = notesSlice.actions;
+
+export const selectArchivedNotes = state => state.notes.notes.filter(note => note.archived);
+export const selectNotArchivedNotes = state => state.notes.notes.filter(note => !note.archived);
+
 export default notesSlice.reducer;
