@@ -1,8 +1,11 @@
 
 import './App.css';
 import TableComponent from "./Components/TableComponent";
+import FormNotes from "./Components/FormNotes";
 
 function App() {
+
+
   return (
     <div className="container">
       <TableComponent  headers={[
@@ -14,26 +17,12 @@ function App() {
         " ",
         <img className="pic" src="/images/archived_white.svg" alt="archive"/>,
         <img className="pic" src="/images/remove_white.svg" alt="remove"/>
-      ]} />
+      ] }
+      />
         <div className="create-btn">
           <button id="create-note-btn">Create Note</button>
         </div>
-      <section>
-        <form id="note-form" style={{display: 'none'}}>
-          <label htmlFor="title">Name</label>
-          <input type="text" id="title" name="title" required/>
-            <label htmlFor="category">Category</label>
-            <select id="category" name="category">
-              <option value="Task">Task</option>
-              <option value="Random Thought">Random Thought</option>
-              <option value="Idea">Idea</option>
-              <option value="Quote">Quote</option>
-            </select>
-            <label htmlFor="content">Notes</label>
-            <input type="text" id="content" name="content" required/>
-              <button type="submit">Add Note</button>
-        </form>
-      </section>
+      <FormNotes/>
 
       <section id="archived-notes-section">
         <h2>Archived Notes</h2>
