@@ -1,6 +1,28 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 
-const initialState = {
+export type NoteType = {
+  id: any
+  title: string
+  category: string
+  content: string
+  created: string
+  dates: string
+  archived: boolean
+}
+
+export type NoteEditType = {
+  id: any
+  title: string
+  category: string
+  content: string
+  dates: string
+}
+
+type NotesStateType = {
+  notes: NoteType[]
+}
+
+const initialState: NotesStateType = {
   notes: [
     {
       id: 1,
@@ -65,45 +87,36 @@ const initialState = {
       dates: '1/08/2023',
       archived: false,
     }
-  ],
+  ]
 }
+
+
 const notesSlice = createSlice({
   name: 'notes',
   initialState,
   reducers: {
-    createNote: (state, action) => {
-      state.notes.push(action.payload);
+    createNote: (state, action: PayloadAction<NoteType>) => {
+      state.notes.push(action.payload)
     },
-    editNote: (state, action) => {
-      const { id, title, category, content, dates } = action.payload;
-      const noteToEdit = state.notes.find((note) => note.id === id);
+    editNote: (state, action: PayloadAction<NoteEditType>) => {
+      const {id, title, category, content, dates} = action.payload
+      const noteToEdit = state.notes.find((note) => note.id === id)
       if (noteToEdit) {
-        noteToEdit.title = title;
-        noteToEdit.category = category;
-        noteToEdit.content = content;
-        noteToEdit.dates = dates;
+        noteToEdit.title = title
+        noteToEdit.category = category
+        noteToEdit.content = content
+        noteToEdit.dates = dates
       }
     },
-    archivedNote: (state, action) => {
-      const id = action.payload;
-      state.notes = state.notes.map(note => {
-        if (note.id === id) {
-          return { ...note, archived: true };
-        }
-        return note;
-      });
+    toggleArchive: (state, action: PayloadAction<number>) => {
+      const id = action.payload
+      const toggledNote = state.notes.find(note => note.id === id)
+      if (toggledNote) {
+        toggledNote.archived = !toggledNote.archived
+      }
     },
-    unArchivedNote: (state, action) => {
-      const id = action.payload;
-      state.notes = state.notes.map(note => {
-        if (note.id === id) {
-          return { ...note, archived: false };
-        }
-        return note;
-      });
-    },
-    removeNote: (state, action) => {
-      state.notes = state.notes.filter( (note) => note.id !== action.payload)
+    removeNote: (state, action: PayloadAction<number>) => {
+      state.notes = state.notes.filter((note) => note.id !== action.payload)
     }
   }
 })
@@ -111,12 +124,9 @@ const notesSlice = createSlice({
 export const {
   createNote,
   removeNote,
-  archivedNote,
-  unArchivedNote,
-  editNote
-} = notesSlice.actions;
+  editNote,
+  toggleArchive
+} = notesSlice.actions
 
-export const selectArchivedNotes = state => state.notes.notes.filter(note => note.archived);
-export const selectNotArchivedNotes = state => state.notes.notes.filter(note => !note.archived);
 
-export default notesSlice.reducer;
+export default notesSlice.reducer

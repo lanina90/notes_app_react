@@ -1,27 +1,33 @@
-import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
-import {createNote} from "../../store/notesSlice";
-import { v4 as uuidv4 } from 'uuid';
-import {createDate, getDatesFromString} from "../../utils/helperFunctions";
+import {ChangeEvent, FC, FormEvent, useState} from 'react'
+import {createNote} from "../../store/notesSlice"
+import {v4 as uuidv4} from 'uuid'
+import {createDate, getDatesFromString} from "../../utils/helperFunctions"
+import {useAppDispatch} from "../../hooks"
 
-const CreateNoteForm = ({setIsCreateFromOpen}) => {
+type ValueType = {
+  title: string
+  category: string
+  content: string
+}
+const CreateNoteForm: FC<{ setIsCreateFromOpen: (open: boolean) => void }> = ({setIsCreateFromOpen}) => {
 
-  const dispatch = useDispatch()
-  const [value, setValue] = useState({
-    title: '',
-    category: 'Task',
-    content: '',
-  })
+  const dispatch = useAppDispatch()
+  const [value, setValue] =
+    useState<ValueType>({
+      title: '',
+      category: 'Task',
+      content: '',
+    })
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+    const {name, value} = event.target
     setValue((prevNoteData) => ({
       ...prevNoteData,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
-  const createNoteHandler = (event) => {
+  const createNoteHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const newNote = {
       id: uuidv4(),
@@ -31,19 +37,18 @@ const CreateNoteForm = ({setIsCreateFromOpen}) => {
       created: createDate(),
       dates: getDatesFromString(value.content),
       archived: false,
-    };
+    }
 
-    dispatch(createNote(newNote));
+    dispatch(createNote(newNote))
 
     setValue({
       title: '',
       category: 'Task',
       content: '',
-    });
+    })
 
     setIsCreateFromOpen(false)
-
-  };
+  }
 
   return (
     <section>
@@ -78,7 +83,7 @@ const CreateNoteForm = ({setIsCreateFromOpen}) => {
         <button type="submit">Add Note</button>
       </form>
     </section>
-  );
-};
+  )
+}
 
-export default CreateNoteForm;
+export default CreateNoteForm

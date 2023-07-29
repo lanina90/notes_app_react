@@ -1,34 +1,38 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch} from "react-redux";
-import {getDatesFromString} from "../../utils/helperFunctions";
-import {editNote} from "../../store/notesSlice";
+import React, {ChangeEvent, FC, FormEvent, useEffect, useState} from 'react'
+import {getDatesFromString} from "../../utils/helperFunctions"
+import {editNote, NoteType} from "../../store/notesSlice"
+import {useAppDispatch} from "../../hooks"
 
-const EditNoteComponent = ({setEditedNoteId, note}) => {
-  console.log(note);
-  const dispatch = useDispatch()
+type EditNoteComponentPropsType = {
+  note: NoteType
+  setEditedNoteId: (() => void)
+}
+const EditNoteComponent: FC<EditNoteComponentPropsType> = ({setEditedNoteId, note}) => {
+
+  const dispatch = useAppDispatch()
   const [value, setValue] = useState({
     title: '',
     category: 'Task',
     content: '',
-  });
+  })
 
   useEffect(() => {
     setValue({
       title: note.title,
       category: note.category,
       content: note.content,
-    });
-  }, [note.id]);
+    })
+  }, [note.title, note.category, note.content,])
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+    const {name, value} = event.target
     setValue((prevNoteData) => ({
       ...prevNoteData,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
-  const editNoteHandler = (event) => {
+  const editNoteHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     dispatch(editNote({
@@ -37,17 +41,17 @@ const EditNoteComponent = ({setEditedNoteId, note}) => {
       category: value.category,
       content: value.content,
       dates: getDatesFromString(value.content),
-    }));
+    }))
 
     setValue({
       title: '',
       category: 'Task',
       content: '',
-    });
+    })
 
     setEditedNoteId()
 
-  };
+  }
 
 
   return (
@@ -79,7 +83,7 @@ const EditNoteComponent = ({setEditedNoteId, note}) => {
         <button type="submit">Save</button>
       </form>
     </section>
-  );
-};
+  )
+}
 
-export default EditNoteComponent;
+export default EditNoteComponent
