@@ -42,12 +42,15 @@ const TableComponent: FC<TableComponentPropsType> = ({headers, tableShowFor}) =>
 
     setSummaryData(categoriesCount)
   }
+  const Overlay = () => (
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10"></div>
+  )
 
   const notesToShow = tableShowFor === 'unarchived' ? notArchivedNotes : archivedNotes
 
   return (
     <section>
-      <table className="notes">
+      <table className="w-full mx-auto mb-5" >
         <thead>
         <tr>
           {headers.map((header, index) => (
@@ -69,21 +72,26 @@ const TableComponent: FC<TableComponentPropsType> = ({headers, tableShowFor}) =>
             Object.keys(summaryData).map((category) => (
               <tr key={category}>
                 <td>
+                  <div className="row-data rounded-l-lg">
                   <div className="flex-container">
                     <div className="category-image">
-                      <img src={getCategoryImage(category)} alt={category}/>
+                      <img
+                        style={{width: '20px'}}
+                        src={getCategoryImage(category)} alt={category}/>
                     </div>
                     <div>{category}</div>
                   </div>
+                  </div>
                 </td>
-                <td>{summaryData[category].active}</td>
-                <td>{summaryData[category].archived}</td>
+                <td><div className="row-data ">{summaryData[category].active}</div></td>
+                <td><div className="row-data rounded-r-lg ">{summaryData[category].archived}</div></td>
               </tr>
             ))
           )
         }
         </tbody>
       </table>
+      {noteToEdit && <Overlay />}
       {noteToEdit && (
         <EditNoteComponent
           note={noteToEdit}

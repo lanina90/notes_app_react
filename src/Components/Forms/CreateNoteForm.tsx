@@ -51,10 +51,11 @@ const CreateNoteForm: FC<{ setIsCreateFromOpen: (open: boolean) => void }> = ({s
   }
 
   return (
-    <section>
+    <section className="m-5">
       <form onSubmit={createNoteHandler}>
         <label htmlFor="title">Name</label>
         <input
+          className=" h-9 mx-1.5 border-2 border-my-grey"
           value={value.title}
           onChange={handleChange}
           type="text"
@@ -63,6 +64,7 @@ const CreateNoteForm: FC<{ setIsCreateFromOpen: (open: boolean) => void }> = ({s
           required/>
         <label htmlFor="category">Category</label>
         <select
+          className=" h-9 mx-1.5 border-2 border-my-grey"
           value={value.category}
           onChange={handleChange}
           name="category"
@@ -74,13 +76,16 @@ const CreateNoteForm: FC<{ setIsCreateFromOpen: (open: boolean) => void }> = ({s
         </select>
         <label htmlFor="content">Notes</label>
         <input
+          className="h-9 mx-1.5 border-2 border-my-grey"
           value={value.content}
           onChange={handleChange}
           type="text"
           id="content"
           name="content"
           required/>
-        <button type="submit">Add Note</button>
+        <button
+          className="h-9 cursor-pointer rounded-sm p-1 border-2 border-my-grey"
+          type="submit">Add Note</button>
       </form>
     </section>
   )

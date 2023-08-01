@@ -21,34 +21,64 @@ const TableRowArchivedAndUnarchived: FC<TableRowArchivedAndUnarchivedPropsType> 
     dispatch(removeNote(id))
   }
 
+  const openEditModal = () => {
+    setEditedNoteId(note.id)
+    document.body.classList.add('overflow-hidden')
+    document.body.classList.add('relative')
+  }
+
   return (
     <tr>
       <td>
-        <div className="flex-container">
-          <div className="category-image">
-            <img src={getCategoryImage(note.category)} alt={note.category}/>
+        <div className="row-data rounded-l-lg">
+          <div className="flex-container">
+            <div className="category-image">
+              <img style={{width: '20px'}}
+                   src={getCategoryImage(note.category)}
+                   alt={note.category}/>
+            </div>
+            <div>{trimText(note.title, 20)}</div>
           </div>
-          <div>{trimText(note.title, 20)}</div>
         </div>
       </td>
-      <td>{note.created}</td>
-      <td>{note.category}</td>
-      <td>{trimText(note.content, 20)}</td>
-      <td>{note.dates}</td>
+      <td>
+        <div className="row-data ">{note.created}</div>
+      </td>
+      <td>
+        <div className="row-data">{note.category}</div>
+      </td>
+      <td>
+        <div className="row-data">{trimText(note.content, 20)}</div>
+      </td>
+      <td>
+        <div className="row-data">{note.dates}</div>
+      </td>
       {tableShowFor === 'archived' ? (
-        <td>
-          <div onClick={() => dispatch(toggleArchive(note.id))} className="pic unarchive"/>
+        <td className='w-8'>
+          <div className="row-data rounded-r-lg">
+            <div onClick={() => dispatch(toggleArchive(note.id))}
+                 className="w-7 h-7 bg-unarchive cursor-pointer"/>
+          </div>
         </td>
       ) : (
         <>
-          <td>
-            <div onClick={() => setEditedNoteId(note.id)} className="pic edit"/>
+          <td className='w-6'>
+            <div className="row-data">
+              <div onClick={openEditModal}
+                   className="w-8 h-8 bg-edit cursor-pointer"/>
+            </div>
           </td>
-          <td>
-            <div onClick={() => dispatch(toggleArchive(note.id))} className="pic archive"/>
+          <td className='w-6'>
+            <div className="row-data">
+              <div onClick={() => dispatch(toggleArchive(note.id))}
+                   className="w-8 h-8 bg-archive cursor-pointer"/>
+            </div>
           </td>
-          <td>
-            <div onClick={() => removeNoteHandler(note.id)} className="pic remove"/>
+          <td className='w-6'>
+            <div className="row-data rounded-r-lg">
+              <div onClick={() => removeNoteHandler(note.id)}
+                   className="w-8 h-7 bg-remove cursor-pointer"/>
+            </div>
           </td>
         </>
       )}
