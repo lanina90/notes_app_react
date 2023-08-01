@@ -9,7 +9,7 @@ type TableRowArchivedAndUnarchivedPropsType = {
   setEditedNoteId: ((open: number) => void)
 }
 
-const TableRowArchivedAndUnarchived: FC<TableRowArchivedAndUnarchivedPropsType> = ({
+const TableRowArchive: FC<TableRowArchivedAndUnarchivedPropsType> = ({
                                                                                      note,
                                                                                      tableShowFor,
                                                                                      setEditedNoteId
@@ -86,4 +86,4 @@ const TableRowArchivedAndUnarchived: FC<TableRowArchivedAndUnarchivedPropsType> 
   )
 }
 
-export default TableRowArchivedAndUnarchived
+export default TableRowArchive
