@@ -3,36 +3,48 @@ import {Provider} from 'react-redux';
 import { store } from '../../store/configStore';
 import TableRowArchive, {TableRowArchiveProps} from "./TableRowArchive";
 
-const meta = {
+
+const meta: Meta<TableRowArchiveProps> = {
   title: 'Tables/TableRowArchive',
   component: TableRowArchive,
   parameters: {
     layout: 'fullscreen',
   },
   tags: ['autodocs'],
-  argTypes: {},
+
 } satisfies Meta<typeof TableRowArchive>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = (args: TableRowArchiveProps) => (
+const Template = (args: TableRowArchiveProps) => (
   <Provider store={store}>
-    <TableRowArchive {...args} />
-</Provider>
+    <table className="w-full mx-auto mb-5">
+      <TableRowArchive {...args} />
+    </table>
+  </Provider>
 );
+export const Primary: Story = {
+  argTypes: {
+    tableShowFor: {
+      control: 'radio',
+      options: ['unarchived', 'archived'],
+      description: 'Expect unarchived or archived',
+    },
+  } ,
+  args: {
+    note: {
+      id: 'any',
+      title: 'New feature',
+      category: 'Idea',
+      content: 'Implement new feature for app before 18/07/2023',
+      created: 'July 15, 2023',
+      dates: '18/07/2023',
+      archived: false,
+    },
+    tableShowFor: 'unarchived',
 
-Primary.args = {
-  note: {
-    id: 'any',
-    title: 'string',
-    category: 'string',
-    content: 'string',
-    created: 'string',
-    dates: 'string',
-    archived: true
+    setEditedNoteId: () => {},
   },
-  tableShowFor: 'unarchived',
-  setEditedNoteId: () => {},
+  render: Template,
 };
-
