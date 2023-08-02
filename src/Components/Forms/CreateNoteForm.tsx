@@ -64,7 +64,7 @@ const CreateNoteForm: FC<{ setIsCreateFromOpen: (open: boolean) => void }> = ({s
           required/>
         <label htmlFor="category">Category</label>
         <select
-          className=" h-9 mx-1.5 border-2 border-my-grey"
+          className="h-9 mx-1.5 border-2 border-my-grey"
           value={value.category}
           onChange={handleChange}
           name="category"

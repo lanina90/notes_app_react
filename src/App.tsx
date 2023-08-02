@@ -6,7 +6,7 @@ import {FC} from "react"
 const App: FC = () => {
 
   return (
-    <div className="max-w-custom mx-auto">
+    <div className="max-w-custom mx-auto max-w-6xl">
      <Layout/>
     </div>
   )
