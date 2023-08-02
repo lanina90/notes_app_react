@@ -2,6 +2,7 @@ import {useState} from 'react'
 import TableComponent from "../Components/TableComponents/TableComponent"
 import CreateNoteForm from "../Components/Forms/CreateNoteForm"
 import {FC} from "react"
+import Button from "../UIKit/Button/Button";
 
 const Layout: FC = () => {
   const [isCreateFromOpen, setIsCreateFromOpen] = useState<boolean>(false)
@@ -23,10 +24,11 @@ const Layout: FC = () => {
 
       />
       <div className="flex justify-end my-1.5" >
-        <button className="cursor-pointer rounded-sm p-1 border-2 border-my-grey"
-          onClick={() => setIsCreateFromOpen(true)}
-        >Create Note
-        </button>
+        <Button
+          className="cursor-pointer rounded-sm p-1 border-2 border-my-grey"
+          type={'button'}
+          label={'Create Note'}
+          onClick={() => setIsCreateFromOpen(true)}/>
       </div>
       {isCreateFromOpen && <CreateNoteForm setIsCreateFromOpen={setIsCreateFromOpen}/>}
 

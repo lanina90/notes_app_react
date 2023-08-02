@@ -15,7 +15,6 @@ module.exports = {
         'edit': "url('assets/images/edit_icon.svg')",
         'archive': "url('assets/images/archive_dark.svg')",
         'remove': "url('assets/images/remove_dark.svg')",
-
       }
     },
   },

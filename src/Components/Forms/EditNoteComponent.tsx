@@ -2,6 +2,9 @@ import React, {ChangeEvent, FC, FormEvent, useEffect, useState} from 'react'
 import {getDatesFromString} from "../../utils/helperFunctions"
 import {editNote, NoteType} from "../../store/notesSlice"
 import {useAppDispatch} from "../../hooks"
+import Input from "../../UIKit/Input";
+import Select from "../../UIKit/Select";
+import Button from "../../UIKit/Button/Button";
 
 type EditNoteComponentPropsType = {
   note: NoteType
@@ -56,36 +59,16 @@ const EditNoteComponent: FC<EditNoteComponentPropsType> = ({setEditedNoteId, not
   return (
     <section className="absolute top-20 left-1/4 w-1/2 h-72 bg-white z-20 rounded-2xl">
       <form className="flex flex-col p-5" onSubmit={editNoteHandler}>
-        <label htmlFor="title">Title</label>
-        <input
-          className="m-2 h-9 border-2 border-my-grey"
-          value={value.title}
-          onChange={handleChange}
-          type="text"
-          name="title"
-        />
-        <label htmlFor="content">Content</label>
-        <input
-          className="m-2 h-9 border-2 border-my-grey"
-          value={value.content}
-               onChange={handleChange}
-               type="text"
-               name="content"/>
-        <label htmlFor="category">Category</label>
-        <select
-          className="m-2 h-9 border-2 border-my-grey"
-          value={value.category}
-          onChange={handleChange}
-          name="category"
-        >
-          <option value="Task">Task</option>
-          <option value="Random Thought">Random Thought</option>
-          <option value="Idea">Idea</option>
-          <option value="Quote">Quote</option>
-        </select>
-        <button
-          className="w-3/6 m-auto p-2.5h-9 cursor-pointer p-1 border-2 border-my-grey"
-          type="submit">Save</button>
+        <Input labelName={"Title"} value={value.title} onChange={handleChange} type={"text"} id={"title"}
+               name={"title"}/>
+        <Input labelName={"Content"} value={value.content} onChange={handleChange} type={"text"} id={"content"}
+               name={"content"}/>
+        <Select labelName={"Category"} value={value.category} onChange={handleChange} name={"category"}
+                options={["Task", "Random Thought", "Idea", "Quote"]}/>
+
+        <Button className={'w-3/6 mx-auto my-4 p-2.5h-9 cursor-pointer p-1 border-2 border-dark-grey hover:bg-dark-grey'}
+                type={'submit'}
+                label={'Save'}/>
       </form>
     </section>
   )
