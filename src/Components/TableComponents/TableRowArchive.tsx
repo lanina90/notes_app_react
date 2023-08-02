@@ -3,13 +3,13 @@ import {getCategoryImage, trimText} from "../../utils/helperFunctions"
 import {NoteType, removeNote, toggleArchive} from "../../store/notesSlice"
 import {useAppDispatch} from "../../hooks"
 
-type TableRowArchivedAndUnarchivedPropsType = {
+export type TableRowArchiveProps = {
   note: NoteType
   tableShowFor: string
   setEditedNoteId: ((open: number) => void)
 }
 
-const TableRowArchive: FC<TableRowArchivedAndUnarchivedPropsType> = ({
+const TableRowArchive: FC<TableRowArchiveProps> = ({
                                                                                      note,
                                                                                      tableShowFor,
                                                                                      setEditedNoteId
